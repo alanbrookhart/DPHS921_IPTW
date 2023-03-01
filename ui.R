@@ -51,10 +51,12 @@ shinyUI(fluidPage(
                   tabPanel('Table 1', htmlOutput('table_1')),
                   tabPanel('PS Model Fit',
                            p("These are the results from a logistic regression of the treatment
-                           on the specified covariates. The paramters estimates are log odds ratios."),
+                           on the specified covariates. The paramters estimates are odds ratios."),
+                           gt_output(outputId = "summary_gt"),
+                           p("This is the actual R output."),
                            verbatimTextOutput('summary_fit')),
                   tabPanel('PS Distribution', girafeOutput('ps_dist', height = "800px")),
-                  tabPanel('Data Augmented with PS and Weight)',
+                  tabPanel('Data Augmented with PS and Weight',
                            DT::dataTableOutput('aug_data')),
                   tabPanel('Weighted PS Distribution', girafeOutput('ps_dist_wt', height = "800px")),
                   tabPanel('Weighted Table 1', htmlOutput('ipw_table_1')),
@@ -62,12 +64,18 @@ shinyUI(fluidPage(
                            h3("Unweighted / Unadjusted"),
                            p("These are the results from an unweighted linear regression of the outcome on treatment.
                              Estimation is done using a GEE binary outcome, identity link function.
+                             This results in an estimate of a risk difference. 
                              Robust standard errors are computed using an independence working variance-covariance matrix."),
+                           gt_output(outputId = "gee_unwt_gt"),
+                           p("This is the actual R output."),
                            verbatimTextOutput('summary_unadjusted'),
                            h3("Weighted / Adjusted"),
                            p("These are the results from a weighted linear regression of the outcome on treatment.
                              Estimation is done using a GEE binary outcome, identity link function.
+                             This results in an estimate of a risk difference. 
                              Robust standard errors are computed using an independence working variance-covariance matrix."),
+                           gt_output(outputId = "gee_wt_gt"),
+                           p("This is the actual R output."),
                            verbatimTextOutput('summary_adjusted')),
       ), width = 7)
   ), column(1)

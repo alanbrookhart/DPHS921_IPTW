@@ -94,9 +94,16 @@ shinyServer(function(input, output, session) {
           family = "binomial", data = df_data())
     }
    
-   # fit PS model
+   # summarize PS model
    output$summary_fit = renderPrint({
      summary(fit)
+   })
+   
+   # fit PS model
+   output$summary_gt = render_gt({
+     tbl_regression(fit, exponentiate = TRUE, 
+                    estimate_fun= ~style_sigfig(.x, digits = 3)) %>%
+       as_gt() 
    })
    
    # compute weights
@@ -183,12 +190,23 @@ shinyServer(function(input, output, session) {
    output$summary_unadjusted = renderPrint({
      summary(gee_unweighted)
    })
+   output$gee_unwt_gt = render_gt({
+     tbl_regression(gee_unweighted, 
+                    estimate_fun= ~style_sigfig(.x, digits = 3)) %>%
+       as_gt() 
+   })
    
    gee_weighted = geeglm(outcome ~ treatment, data = analy,
                          id = id, weight = weight, 
                          family = binomial("identity"))
    output$summary_adjusted = renderPrint({
      summary(gee_weighted)
+   })
+   
+   output$gee_wt_gt = render_gt({
+     tbl_regression(gee_weighted, 
+                    estimate_fun= ~style_sigfig(.x, digits = 3)) %>%
+       as_gt() 
    })
   })
  
