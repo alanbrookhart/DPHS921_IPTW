@@ -93,7 +93,7 @@ shinyUI(fluidPage(
                   tabPanel('Results',
                            h3("Unweighted / Unadjusted"),
                            p("These are the results from an unweighted linear regression of the outcome on treatment.
-                             Estimation is done using a GEE binary outcome, identity link function.
+                             Estimation is done using a GEE approach for a binary outcome with an identity link function.
                              This results in an estimate of a risk difference. 
                              Robust standard errors are computed using an independence working variance-covariance matrix."),
                            gt_output(outputId = "gee_unwt_gt"),
@@ -101,7 +101,7 @@ shinyUI(fluidPage(
                            verbatimTextOutput('summary_unadjusted'),
                            h3("Weighted / Adjusted"),
                            p("These are the results from a weighted linear regression of the outcome on treatment.
-                             Estimation is done using a GEE binary outcome, identity link function.
+                             Estimation is done using a weighted GEE approach for a binary outcome with an identity link function.
                              This results in an estimate of a risk difference. 
                              Robust standard errors are computed using an independence working variance-covariance matrix."),
                            gt_output(outputId = "gee_wt_gt"),
