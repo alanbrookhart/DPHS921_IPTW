@@ -2,11 +2,39 @@ shinyUI(fluidPage(
   
   img(src = 'logo.png', width = '50%'),
   br(),
+  tags$head(
+    # Note the wrapping of the string in HTML()
+    tags$style(HTML("
+    @import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
+      body {
+       font-family: 'Barlow', sans-serif;
+      }
+      h1{
+        font-family: 'Barlow', sans-serif;
+        text-align: center;
+      }
+      h2{
+        font-family: 'Barlow', sans-serif;
+        text-align: center;
+      }
+      h3{
+        font-family: 'Barlow', sans-serif;
+        text-align: center;
+      }
+      p {
+        font-family: 'Barlow', sans-serif;
+      }
+      .shiny-input-container {
+        color: #474747;
+      }"))
+  ),
   
   # Application title
-  titlePanel(HTML('<center>Propensity Score Weighted Analysis Lab<center>')),
-  h3(HTML('<center>M. Alan Brookhart, PhD<center>')),
-  h3(HTML("<center>PHS 921: Introduction to Causal Inference")),
+  titlePanel(
+    HTML('Propensity Score Weighted Analysis Lab')
+  ),
+  h3(HTML('M. Alan Brookhart, PhD')),
+  h3(HTML("PHS 921: Introduction to Causal Inference")),
   br(),
   br(),
   
@@ -32,8 +60,8 @@ shinyUI(fluidPage(
       
       # INPUT: specifying the weighting scheme
       selectInput('weight', 'Weight type:', choices = list(`Inverse Probability of Treatment Weights` = "IPTW",
-                                                           `Standardized Mortality Ratio Weighted - Group 1` = "SMRW1",
-                                                           `Standardized Mortality Ratio Weighted - Group 2` = "SMRW2"),
+                                                           `Standardized Mortality Ratio Weights - Treatment` = "SMRW1",
+                                                           `Standardized Mortality Ratio Weights - Control` = "SMRW2"),
                   multiple = F, selectize = T),
       
       actionButton("run", "Fit PS Model"),
@@ -52,11 +80,13 @@ shinyUI(fluidPage(
                   tabPanel('PS Model Fit',
                            p("These are the results from a logistic regression of the treatment
                            on the specified covariates. The paramters estimates are odds ratios."),
+                           #plotOutput("fp_ps_model"),
                            gt_output(outputId = "summary_gt"),
                            p("This is the actual R output."),
                            verbatimTextOutput('summary_fit')),
                   tabPanel('PS Distribution', girafeOutput('ps_dist', height = "800px")),
                   tabPanel('Data Augmented with PS and Weight',
+                           br(),
                            DT::dataTableOutput('aug_data')),
                   tabPanel('Weighted PS Distribution', girafeOutput('ps_dist_wt', height = "800px")),
                   tabPanel('Weighted Table 1', htmlOutput('ipw_table_1')),

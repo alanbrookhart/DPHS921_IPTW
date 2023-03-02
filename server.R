@@ -106,6 +106,11 @@ shinyServer(function(input, output, session) {
        as_gt() 
    })
    
+   # output$fp_ps_model =  renderPlot({
+   #   ggcoef_model(fit, exponentiate = TRUE, signif_stars = FALSE, 
+   #                show_p_values = FALSE)
+   # })
+   
    # compute weights
    analy = df_data() %>%
      transmute(ps = predict(fit, type = "response"), 
@@ -131,6 +136,7 @@ shinyServer(function(input, output, session) {
      position = position_dodge(width = 0.01/2)) +
      theme_bw() +
      xlab("Propensity Score") + 
+     ylab("Density") + 
      guides(colour = FALSE, linetype = FALSE, 
             fill = guide_legend("Treatment Group"))
    
@@ -153,6 +159,7 @@ shinyServer(function(input, output, session) {
        position = position_dodge(width = 0.01/2)) +
      theme_bw() +
      xlab("Propensity Score") + 
+     ylab("Density") + 
      guides(colour = FALSE, linetype = FALSE, 
             fill = guide_legend("Treatment Group"))
    
