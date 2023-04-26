@@ -1,5 +1,5 @@
 
-# read-in data and configure related objects for Shiny app
+# read-in data sets and configure related lists that describe them for Shiny app
 
 ns <- readRDS("data_raw/ns.rds")
 sta <- readRDS("data_raw/sta.rds")
